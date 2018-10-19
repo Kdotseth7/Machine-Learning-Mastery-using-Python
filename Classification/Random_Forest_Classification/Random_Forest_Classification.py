@@ -1,4 +1,4 @@
-# Logistic Regression
+# Random Forest Classification
 
 # Importing the libraries
 import numpy as np
@@ -16,19 +16,19 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, rand
 
 # Feature Scaling
 from sklearn.preprocessing import StandardScaler
-sc_X = StandardScaler()
-X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.transform(X_test) # No need to fit Test Set as its already fitted to Training Set
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test) # No need to fit Test Set as its already fitted to Training Set
 
-# Fitting Logisitic Regression to Dataset
-from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression(random_state = 0)
+# Fitting classifier to the Training set
+from sklearn.ensemble import RandomForestClassifier
+classifier = RandomForestClassifier(n_estimators = 10, criterion = "entropy", random_state = 0)
 classifier.fit(X_train, y_train)
 
-# Predicting the Test Set Results
+# Predicting the Test set results
 y_pred = classifier.predict(X_test)
 
-# Making the Confusion Matrix (Classification Evaluation Metric)
+# Making the Confusion Matrix(Classification Evaluation Metric)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 print("Confusion Matrix : %s " % (cm))
@@ -47,7 +47,7 @@ plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                 c = ListedColormap(('red', 'green'))(i), label = j) # It draws a scatter plot where red dot corresponds to 0 & green dot corresponds to 1
-plt.title('Logistic Regression (Training set)')
+plt.title('Random Forest Classification (Training set)')
 plt.xlabel('Age')
 plt.ylabel('Estimated Salary')
 plt.legend() # Legend defines the color for each class label
@@ -66,7 +66,7 @@ plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                 c = ListedColormap(('red', 'green'))(i), label = j)
-plt.title('Logistic Regression (Test set)')
+plt.title('Random Forest Classification (Test set)')
 plt.xlabel('Age')
 plt.ylabel('Estimated Salary')
 plt.legend() 
